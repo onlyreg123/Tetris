@@ -1,0 +1,375 @@
+<h2>Description</h2>
+
+<p>Now, once the pieces have been transferred and the player can move them across the board, we need to implement the borders to restrict the movement of pieces. In the previous stage, it was like that:</p>
+
+<pre><code class="language-no-highlight">- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - 0 0
+- - - - - - - - 0 0
+- - - - - - - - - -
+- - - - - - - - - -</code></pre>
+
+<p>The <code class="java">O</code> piece above moves through the left board's wall and emerges from the right as shown in the figure below.</p>
+
+<pre><code class="language-no-highlight">- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 - - - - - - - - 0
+0 - - - - - - - - 0
+- - - - - - - - - -
+- - - - - - - - - -</code></pre>
+
+<p>Let's add a rule to restrict that. Create the borders so that the piece cannot move through the imaginary walls. And don't forget about the "floor". Your pieces should not fall through it. Once the piece hits the floor, it should be stored on the game board and remain static.</p>
+
+<p> </p>
+
+<h2>Objectives</h2>
+
+<p>In this stage, your program should:</p>
+
+<ol>
+	<li>Restrict the piece movement on the game board.</li>
+	<li>Rotate the pieces as they move.</li>
+	<li>Make the piece static once it hits the floor of the game board.</li>
+</ol>
+
+<p><div class="alert alert-primary">Remember, your board can be of any size you want.</div></p>
+
+<h2>Examples</h2>
+
+<p>The example below shows how your program should work.</p>
+
+<p>The greater-than symbol followed by a space (<code class="java">&gt; </code>) represents the user input. Note that it's not part of the input.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<pre><code class="language-no-highlight">Input command: &gt; piece: O
+Input command: &gt; dimensions: 10 10
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+- - - - 0 0 - - - -
+- - - - 0 0 - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - 0 0 - - - - -
+- - - 0 0 - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - 0 0 - - - - - -
+- - 0 0 - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- 0 0 - - - - - - -
+- 0 0 - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 0 - - - - - - - -
+0 0 - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 0 - - - - - - - -
+0 0 - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 0 - - - - - - - -
+0 0 - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; right
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- 0 0 - - - - - - -
+- 0 0 - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; right
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - 0 0 - - - - - -
+- - 0 0 - - - - - -
+
+Input command: &gt; down
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - 0 0 - - - - - -
+- - 0 0 - - - - - -
+
+
+Input command: &gt; right
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - 0 0 - - - - - -
+- - 0 0 - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - 0 0 - - - - - -
+- - 0 0 - - - - - -
+
+Input command: &gt; exit</code></pre>
+
+<p><strong>Example 2:</strong></p>
+
+<pre><code class="language-no-highlight">Input command: &gt; piece: L
+Input command: &gt; dimensions: 10 10
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+- - - - 0 - - - - -
+- - - - 0 - - - - -
+- - - - 0 0 - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; rotate
+
+- - - - - - - - - -
+- - - - - 0 - - - -
+- - - 0 0 0 - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; rotate
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - 0 0 - - - -
+- - - - - 0 - - - -
+- - - - - 0 - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - 0 0 - - - - -
+- - - - 0 - - - - -
+- - - - 0 - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - 0 0 - - - - - -
+- - - 0 - - - - - -
+- - - 0 - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- 0 0 - - - - - - -
+- - 0 - - - - - - -
+- - 0 - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 0 - - - - - - - -
+- 0 - - - - - - - -
+- 0 - - - - - - - -
+- - - - - - - - - -
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 0 - - - - - - - -
+- 0 - - - - - - - -
+- 0 - - - - - - - -
+
+Input command: &gt; right
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 0 - - - - - - - -
+- 0 - - - - - - - -
+- 0 - - - - - - - -
+
+Input command: &gt; down
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 0 - - - - - - - -
+- 0 - - - - - - - -
+- 0 - - - - - - - -
+
+
+Input command: &gt; left
+
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+0 0 - - - - - - - -
+- 0 - - - - - - - -
+- 0 - - - - - - - -
+
+Input command: &gt; exit</code></pre>
